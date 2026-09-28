@@ -1,69 +1,104 @@
-# THEOS_DEVICE_IP = 127.0.0.1 -p 2222 # install to device from pc
-ARCHS = arm64 #arm64e
-DEBUG = 0
-FINALPACKAGE = 1
-FOR_RELEASE = 1
+#import <UIKit/UIKit.h>
+#import "KittyMemory/MemoryPatch.hpp"
 
-# 0 to treat warnings as errors, 1 otherwise.
-IGNORE_WARNINGS=0
+// 📦 BOX A: Put the exact name of the Game App executable here
+#define GAME_NAME "CarParkingMultiplayer2" 
 
-# 0 to compile for rootful jailbreaks, 1 otherwise.
-ROOTLESS = 0
+void setupMenu() {
+    // 🏷️ This sets the title of your menu on the screen
+    [Menu createMenu:@"My Mod Menu" description:@"10 Feature Menu" themeColor:@"#FF0000"];
 
-ifeq ($(ROOTLESS), 1)
-THEOS_PACKAGE_SCHEME = rootless
-endif 
+    // 🔘 The 10 toggles that will show up on your screen
+    [Menu addToggle:@"50M cash" featureID:1];
+    [Menu addToggle:@"Free clothes" featureID:2];
+    [Menu addToggle:@"Unlimited sprint" featureID:3];
+    [Menu addToggle:@"Poses" featureID:4];
+    [Menu addToggle:@"Paint" featureID:5];
+    [Menu addToggle:@"BodyKits" featureID:6];
+    [Menu addToggle:@"Brake" featureID:7];
+    [Menu addToggle:@"Rally time" featureID:8];
+    [Menu addToggle:@"Rally Penalty" featureID:9];
+    [Menu addToggle:@"Redrock garage" featureID:10];
+}
 
-# only set this  to 1 if you are on mobile theos
-# assuming you have an sdk at your theos sdks directory
-# this will include c++ headers and other needed headers for your project so you don't need to manually include them or something like that
-# if some c++ headers are still missing in your sdk like "initializer_list" then manually copy them to your c++ headers directory and not your project folder
-# for example in my case c++ headers directory is located at /private/var/theos/sdks/iPhoneOS11.2.sdk/usr/include/c++/4.2.1/
-# please note, do not include c++ headers in your theos includes to enable c++ which is a ghetto solution and use this approach instead
-MOBILE_THEOS=1
-ifeq ($(MOBILE_THEOS),1)
-  # path to your sdk
-  SDK_PATH = $(THEOS)/sdks/iPhoneOS11.2.sdk/
-  $(info ===> Setting SYSROOT to $(SDK_PATH)...)
-  SYSROOT = $(SDK_PATH)
-else
-  TARGET = iphone:clang:latest:8.0
-endif
+void handleToggle(int featureID, bool isEnabled) {
+    // 💾 Storage for your 10 memory patches
+    static MemoryPatch cheat1, cheat2, cheat3, cheat4, cheat5, cheat6, cheat7, cheat8, cheat9, cheat10;
 
+    switch (featureID) {
+        case 1: 
+            if (isEnabled) {
+                // 🛠️ Replace 0xYOUR_OFFSET and "YOUR_HEX" for each cheat below
+                cheat1 = MemoryPatch::createWithHex(GAME_NAME, 0x3E53A34, "00938352002EAC72C0035FD6");
+                cheat1.Modify();
+            } else { cheat1.Restore(); }
+            break;
 
-## Common frameworks ##
-PROJ_COMMON_FRAMEWORKS = UIKit Foundation Security QuartzCore CoreGraphics CoreText
+        case 2: 
+            if (isEnabled) {
+                cheat2 = MemoryPatch::createWithHex(GAME_NAME, 0x414BBC0, "20008052C0035FD6");
+                cheat2.Modify();
+            } else { cheat2.Restore(); }
+            break;
 
-## source files ##
-KITTYMEMORY_SRC = $(wildcard KittyMemory/*.cpp)
-SCLALERTVIEW_SRC =  $(wildcard SCLAlertView/*.m)
-MENU_SRC = Menu.mm
+        case 3: 
+            if (isEnabled) {
+                cheat3 = MemoryPatch::createWithHex(GAME_NAME, 0x3E90098, "00008052C0035FD6");
+                cheat3.Modify();
+            } else { cheat3.Restore(); }
+            break;
 
-include $(THEOS)/makefiles/common.mk
+        case 4: 
+            if (isEnabled) {
+                cheat4 = MemoryPatch::createWithHex(GAME_NAME, 0x3E5DBFC, "20008052C0035FD6");
+                cheat4.Modify();
+            } else { cheat4.Restore(); }
+            break;
 
-TWEAK_NAME = @@PROJECTNAME@@
+        case 5: 
+            if (isEnabled) {
+                cheat5 = MemoryPatch::createWithHex(GAME_NAME, 0x40886D4, "20008052C0035FD6");
+                cheat5.Modify();
+            } else { cheat5.Restore(); }
+            break;
 
-@@PROJECTNAME@@_CFLAGS = -fobjc-arc
-@@PROJECTNAME@@_CCFLAGS = -std=c++11 -fno-rtti -fno-exceptions -DNDEBUG
+        case 6: 
+            if (isEnabled) {
+                cheat6 = MemoryPatch::createWithHex(GAME_NAME, 0x3D1A8F8, "20008052C0035FD6");
+                cheat6.Modify();
+            } else { cheat6.Restore(); }
+            break;
 
-ifeq ($(IGNORE_WARNINGS),1)
-  @@PROJECTNAME@@_CFLAGS += -w
-  @@PROJECTNAME@@_CCFLAGS += -w
-endif
+        case 7: 
+            if (isEnabled) {
+                cheat7 = MemoryPatch::createWithHex(GAME_NAME, 0x40885DC, "20008052C0035FD6");
+                cheat7.Modify();
+            } else { cheat7.Restore(); }
+            break;
 
+        case 8: 
+            if (isEnabled) {
+                cheat8 = MemoryPatch::createWithHex(GAME_NAME, 0x3F46754, "1F2003D5");
+                cheat8.Modify();
+            } else { cheat8.Restore(); }
+            break;
 
-@@PROJECTNAME@@_FILES = Tweak.xm $(MENU_SRC) $(KITTYMEMORY_SRC) $(SCLALERTVIEW_SRC)
+        case 9: 
+            if (isEnabled) {
+                cheat9 = MemoryPatch::createWithHex(GAME_NAME, 0x3F43450, "1F2003D5");
+                cheat9.Modify();
+            } else { cheat9.Restore(); }
+            break;
 
-@@PROJECTNAME@@_LIBRARIES += substrate
+        case 10: 
+            if (isEnabled) {
+                cheat10 = MemoryPatch::createWithHex(GAME_NAME, 0x4245F90, "20008052C0035FD6");
+                cheat10.Modify();
+            } else { cheat10.Restore(); }
+            break;
+    }
+}
 
-@@PROJECTNAME@@_FRAMEWORKS = $(PROJ_COMMON_FRAMEWORKS)
-# GO_EASY_ON_ME = 1
-
-include $(THEOS_MAKE_PATH)/tweak.mk
-
-internal-package-check::
-	@chmod 777 versionCheck.sh # Give permission to script 	
-	@./versionCheck.sh # Script to verify template's current version
-
-after-install::
-	install.exec "killall -9 @@BINARYNAME@@ || :"
+%ctor {
+    setupMenu();
+}
